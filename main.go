@@ -12,24 +12,24 @@ func main() {
 		fmt.Println("No name provided!")
 		return
 	}
+
 	name := args[0]
+	fmt.Println("Getting playlist XML...")
 	x := GetXML(name)
+	fmt.Println("Parsing playlist XML")
 	episodes := ParseXML(x)
 
 	var errs []string
-
+	fmt.Println("Starting episodes download...")
 	for i, episode := range episodes {
-		if i == 5 {
-			break
-		}
 		if episode.HD.FileLocation != "" {
-			fmt.Printf("Downloading HD video %d of %d\n", i+1, len(episodes))
+			fmt.Printf("Downloading HD video %d of %d...\n", i+1, len(episodes))
 			if err := Download(episode.HD.FileLocation, name); err == nil {
 				continue
 			}
 		}
 		if episode.SD.FileLocation != "" {
-			fmt.Printf("Downloading SD video %d of %d\n", i+1, len(episodes))
+			fmt.Printf("Downloading SD video %d of %d...\n", i+1, len(episodes))
 			if err := Download(episode.SD.FileLocation, name); err == nil {
 				continue
 			}
