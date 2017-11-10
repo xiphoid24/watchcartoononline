@@ -12,7 +12,9 @@ func Download(url, folder string) error {
 	}
 	cmd := exec.Command("wget", url)
 	cmd.Dir = path
-	if err := cmd.Run(); err != nil {
+
+	if b, err := cmd.CombinedOutput(); err != nil {
+		Logger(WGET_ERR, "%s", b)
 		return err
 	}
 

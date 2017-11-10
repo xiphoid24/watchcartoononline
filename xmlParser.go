@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/xml"
+	"log"
 )
 
 func ParseXML(x []byte) []Episode {
@@ -10,7 +11,9 @@ func ParseXML(x []byte) []Episode {
 	dec := xml.NewDecoder(bytes.NewReader(x))
 	dec.Strict = false
 	var show Show
-	dec.Decode(&show)
+	if err := dec.Decode(&show); err != nil {
+		log.Fatalf("xmlParser.go >> ParseXML() >> dec.Decode() >> \n%v\n\n", err)
+	}
 
 	var episodes []Episode
 
